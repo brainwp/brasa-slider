@@ -1,0 +1,37 @@
+#search_brasa_slider{
+	width:100%;
+	font-size:1.6em;
+}
+#search-bt-slider{
+	margin-top:10px;
+	font-size:1.4em;
+}
+.brasa_slider_item{
+	border-radius:3px;
+	cursor:pointer;
+	width:100%;
+	padding:4px;
+border: 1px solid #ddd;
+	min-height:120px;
+	margin-top:10px;
+}
+.brasa_slider_item img{
+	width:100px;
+	float:left;
+	height:100px;
+}
+.brasa_slider_item .title_item{
+	color:black;
+	font-weight: bold;
+	text-align: center;
+}
+#brasa_slider_search{
+	padding:10px;
+}
+#edit-slug-box{
+	display:none;
+}
+.brasa_slider_item:hover{
+	transition:200ms all ease;
+	border:1px solid #7ACEF4;
+}
