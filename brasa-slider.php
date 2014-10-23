@@ -34,7 +34,8 @@ class Brasa_Slider {
 		add_action('init',array($this, 'init')); //init
 		add_action( 'admin_init', array($this, 'admin_scripts') );
 		add_action( 'add_meta_boxes', array( $this, 'add_boxes' ) );
-		//add_action( 'save_post', array( $this, 'save' ) );
+		add_action( 'save_post', array( $this, 'save' ) );
+		add_shortcode( 'brasa_slider',  array( $this, 'shortcode' ) );
 	}
 	public function init(){
 		if($_GET['brasa_slider_ajax'] == 'true' && current_user_can('edit_posts')){
@@ -120,9 +121,22 @@ class Brasa_Slider {
 		_e('<a id="search-bt-slider" class="button button-primary button-large">Search!</a>','brasa_slider');
 		echo '<div id="brasa_slider_result" data-url="'.home_url().'"></div>';
 	}
-	public function render_sortable_meta(){
-		echo '<input type="hidden" name="brasa_slider_hide" id="brasa_slider_hide">';
-		echo '<ul id="brasa_slider_sortable">';
+	public function render_sortable_meta($post){
+		echo '<input type="text" name="brasa_slider_input" id="brasa_slider_hide" style="display:none">';
+		echo '<ul id="brasa_slider_sortable_ul">';
+		$ids = get_post_meta( $post->ID, 'brasa_slider_ids', true );
+		if(!empty($ids)){
+			$ids = explode(',',$ids);
+			foreach ($ids as $id) {
+				echo '<li class="brasa_slider_item is_item" id="'.$id.'" data-post-id="'.$id.'">';
+			    echo get_the_post_thumbnail($id);
+	      		echo '<div class="title_item">';
+	      		echo get_the_title($id);
+	   			echo '</div>';
+	   			_e('<a class="rm-item" data-post-id="'.get_the_ID().'">Remove this</a>','brasa-slider');
+	   			echo '</li>';
+			}
+		}
 		echo '</ul>';
 	}
 	private function ajax_search(){
@@ -144,11 +158,12 @@ class Brasa_Slider {
 	      		_e('<h2>Click to select</h2>','brasa-slider');
 	      		while ( $query->have_posts() ) {
 	      			$query->the_post();
-	      			echo '<div class="brasa_slider_item">';
+	      			echo '<div class="brasa_slider_item" data-post-id="'.get_the_ID().'">';
 	      			the_post_thumbnail();
 	      			echo '<div class="title_item">';
 	      			the_title();
 	      			echo '</div>';
+	      			_e('<a class="rm-item" data-post-id="'.get_the_ID().'">Remove this</a>','brasa-slider');
 	      			echo '</div>';
 	      		}
 	      	}
@@ -156,6 +171,24 @@ class Brasa_Slider {
 	      		echo 'Not found';
 	      	}
 	    die();
+	}
+	public function save($post_id){
+		$ids = $_POST['brasa_slider_input'];
+		if(!empty($ids)){
+			update_post_meta($post_id, 'brasa_slider_ids', $ids);
+		}
+	}
+	public function shortcode($atts){
+		// Attributes
+		extract( shortcode_atts(
+			array(
+				'name' => '',
+				), $atts )
+		);
+		$slider = get_page_by_title( $atts['name'], OBJECT, 'brasa_slider_cpt' );
+		$ids = get_post_meta( $slider->ID, 'brasa_slider_ids', true );
+
+		return $ids;
 	}
 }
 new Brasa_Slider();
