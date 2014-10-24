@@ -31,6 +31,7 @@ if ( ! defined( 'WPINC' ) ) {
 class Brasa_Slider {
 	public function __construct() {
 		define( 'BRASA_SLIDER_URL', plugin_dir_url( __FILE__ ) );
+		add_image_size( 'brasa_slider_img', 1006, 408, true );
 		add_action('init',array($this, 'init')); //init
 		add_action( 'admin_init', array($this, 'admin_scripts') );
 		add_action( 'add_meta_boxes', array( $this, 'add_boxes' ) );
@@ -41,6 +42,13 @@ class Brasa_Slider {
 		if($_GET['brasa_slider_ajax'] == 'true' && current_user_can('edit_posts')){
 			$this->ajax_search();
 		}
+		wp_enqueue_script('jquery');
+		wp_enqueue_script(
+			'brasa_slider_jqueryui_js',
+			BRASA_SLIDER_URL . 'assets/js/slick.min.js',
+			array('jquery')
+		);
+		wp_enqueue_style( 'brasa_slider_css_frontend', BRASA_SLIDER_URL . 'assets/css/slick.css' );
 		$this->register_cpt();
 	}
 	private function register_cpt(){
@@ -179,6 +187,7 @@ class Brasa_Slider {
 		}
 	}
 	public function shortcode($atts){
+		$html = '';
 		// Attributes
 		extract( shortcode_atts(
 			array(
@@ -187,8 +196,19 @@ class Brasa_Slider {
 		);
 		$slider = get_page_by_title( $atts['name'], OBJECT, 'brasa_slider_cpt' );
 		$ids = get_post_meta( $slider->ID, 'brasa_slider_ids', true );
+		$ids = explode(',', $ids);
 
-		return $ids;
+		$html .= '<div class="col-md-12 is_slider" id="slider-'.$slider->post_name.'">';
+		foreach ($ids as $id) {
+			$img = get_post_thumbnail_id($id);
+			$img = wp_get_attachment_image_src( $img, 'brasa_slider_img', false );
+			$img = $img[0];
+			$html .= '<div class="slick_slide">';
+			$html .= '<a href="'.get_permalink($id).'"><img src="'.$img.'" class="img_slider"></a>';
+			$html .= '</div>';
+		}
+		$html .= '</div>';
+		return $html;
 	}
 }
 new Brasa_Slider();
