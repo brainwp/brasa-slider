@@ -183,9 +183,11 @@ class Brasa_Slider {
 	    die();
 	}
 	public function save($post_id){
-		$ids = $_POST['brasa_slider_input'];
-		if(!empty($ids)){
-			update_post_meta($post_id, 'brasa_slider_ids', $ids);
+		if(isset($_POST['brasa_slider_input'])){
+			$ids = $_POST['brasa_slider_input'];
+			if(!empty($ids)){
+				update_post_meta($post_id, 'brasa_slider_ids', $ids);
+			}
 		}
 	}
 	public function shortcode($atts){
@@ -197,18 +199,23 @@ class Brasa_Slider {
 				), $atts )
 		);
 		$slider = get_page_by_title( $atts['name'], OBJECT, 'brasa_slider_cpt' );
-		$ids = get_post_meta( $slider->ID, 'brasa_slider_ids', true );
-		$ids = explode(',', $ids);
-		$html .= '<div class="col-md-12 is_slider" id="slider-'.$slider->post_name.'">';
-		foreach ($ids as $id) {
-			$img = get_post_thumbnail_id($id);
-			$img = wp_get_attachment_image_src( $img, 'brasa_slider_img', false );
-			$html .= '<div class="slick_slide">';
-			$html .= '<a href="'.get_permalink($id).'"><img src="'.$img[0].'" class="img_slider"></a>';
-			$html .= '</div>';
+		if(!empty($slider) && isset($slider)){
+			$ids = get_post_meta( $slider->ID, 'brasa_slider_ids', true );
+			$ids = explode(',', $ids);
+		    $html .= '<div class="col-md-12 is_slider" id="slider-'.$slider->post_name.'">';
+		    foreach ($ids as $id) {
+		    	$img = get_post_thumbnail_id($id);
+		    	$img = wp_get_attachment_image_src( $img, 'brasa_slider_img', false );
+		    	$html .= '<div class="slick_slide">';
+		    	$html .= '<a href="'.get_permalink($id).'"><img src="'.$img[0].'" class="img_slider"></a>';
+		    	$html .= '</div>';
+		    	$html .= '</div>';
+		    	return $html;
+		    }
 		}
-		$html .= '</div>';
-		return $html;
+		else{
+			return false;
+		}
 	}
 }
 new Brasa_Slider();
