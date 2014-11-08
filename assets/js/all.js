@@ -15,27 +15,27 @@ jQuery(function($){
 		$('#brasa_slider_result').html('');
 	});
 	$(document).on('click','#brasa_slider_sortable .rm-item',function(e){
-		var id = $(this).attr('data-post-id');
-		$('#'+id).remove();
+		$(this).parent('li').hide('slow').remove();
 	});
-	$(document).on('mouseout','#brasa_slider_sortable',function(e){
-		posts = [];
+	var updateInput = function(){
+		var posts = [];
+		var i = 0;
 		$('#brasa_slider_sortable li').each(function(){
 			var id = $(this).attr('data-post-id');
 			posts.push(id);
+			i++;
 		});
 		$('#brasa_slider_hide').val(posts.join());
-		console.log(posts);
+		console.log(posts.join());
+		console.log('contador::'+i);
+	}
+	$(document).on('submit', '#post',function(e){
+		updateInput();
 	});
-	$(document).on('submit','#post',function(e){
-		posts = [];
-		$('#brasa_slider_sortable li').each(function(){
-			var id = $(this).attr('data-post-id');
-			posts.push(id);
-		});
-		$('#brasa_slider_hide').val(posts.join());
-		console.log(posts);
+	$('body').on('click',function(e){
+		updateInput();
 	});
+
 
 	//$( '#brasa_slider_sortable' ).on( 'sortchange', updateInput() );
 });

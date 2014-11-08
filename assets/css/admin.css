@@ -6,7 +6,7 @@
 	margin-top:10px;
 	font-size:1.4em;
 }
-#brasa_slider_result .rm-item{
+#brasa_slider_result .rm-item, #brasa_slider_result .container_brasa_link{
 	display:none;
 }
 .brasa_slider_item{

@@ -83,7 +83,7 @@ class Brasa_Slider {
 			'can_export'          => true,
 			'has_archive'         => false,
 			'exclude_from_search' => true,
-			'publicly_queryable'  => true,
+			'publicly_queryable'  => false,
 			'rewrite'             => false,
 			'capability_type'     => 'page',
 			);
@@ -135,15 +135,20 @@ class Brasa_Slider {
 		echo '<input type="text" name="brasa_slider_input" id="brasa_slider_hide" style="display:none">';
 		echo '<ul id="brasa_slider_sortable_ul">';
 		$ids = get_post_meta( $post->ID, 'brasa_slider_ids', true );
+		echo $ids;
 		if(!empty($ids)){
 			$ids = explode(',',$ids);
 			foreach ($ids as $id) {
-				echo '<li class="brasa_slider_item is_item" id="'.$id.'" data-post-id="'.$id.'">';
+				echo '<li class="brasa_slider_item is_item" data-post-id="'.$id.'" id="'.$id.'">';
 			    echo get_the_post_thumbnail($id);
 	      		echo '<div class="title_item">';
 	      		echo get_the_title($id);
 	   			echo '</div>';
-	   			_e('<a class="rm-item" data-post-id="'.get_the_ID().'">Remove this</a>','brasa-slider');
+	   		    echo '<div class="container_brasa_link" style="width:100%;margin-left:25%;">';
+	      		echo '<label>Link:</label><br>';
+	      		echo '<input class="link_brasa_slider" type="text" name="brasa_slider_link_'.$id.'" placeholder="'.__('Link','brasa_slider').'" value="'.esc_url(get_post_meta($post->ID, 'brasa_slider_id'.$id, true )).'">';
+	 			echo '</div>';
+	   			_e('<a class="rm-item">Remove this</a>','brasa-slider');
 	   			echo '</li>';
 			}
 		}
@@ -173,6 +178,10 @@ class Brasa_Slider {
 	      			echo '<div class="title_item">';
 	      			the_title();
 	      			echo '</div>';
+	      			echo '<div class="container_brasa_link" style="width:100%;margin-left:25%;">';
+	      			echo '<label>Link:</label><br>';
+	      			echo '<input class="link_brasa_slider" type="text" name="brasa_slider_link_'.get_the_ID().'" placeholder="'.__('Link','brasa_slider').'" value="'.get_permalink(get_the_ID()).'">';
+	      			echo '</div>';
 	      			_e('<a class="rm-item" data-post-id="'.get_the_ID().'">Remove this</a>','brasa-slider');
 	      			echo '</div>';
 	      		}
@@ -187,6 +196,13 @@ class Brasa_Slider {
 			$ids = $_POST['brasa_slider_input'];
 			if(!empty($ids)){
 				update_post_meta($post_id, 'brasa_slider_ids', $ids);
+				$ids = explode(',', $ids);
+				foreach ($ids as $id) {
+					update_post_meta($post_id,'brasa_slider_id'.$id,esc_url($_POST['brasa_slider_link_'.$id]));
+				}
+			}
+			else{
+			    delete_post_meta( $post_id, 'brasa_slider_ids' );
 			}
 		}
 	}
@@ -202,16 +218,16 @@ class Brasa_Slider {
 		if(!empty($slider) && isset($slider)){
 			$ids = get_post_meta( $slider->ID, 'brasa_slider_ids', true );
 			$ids = explode(',', $ids);
-		    $html .= '<div class="col-md-12 is_slider" id="slider-'.$slider->post_name.'">';
+		    $html = '<div class="col-md-12 is_slider" id="slider-'.$slider->post_name.'">';
 		    foreach ($ids as $id) {
 		    	$img = get_post_thumbnail_id($id);
 		    	$img = wp_get_attachment_image_src( $img, 'brasa_slider_img', false );
 		    	$html .= '<div class="slick_slide">';
-		    	$html .= '<a href="'.get_permalink($id).'"><img src="'.$img[0].'" class="img_slider"></a>';
+		    	$html .= '<a href="'.esc_url(get_post_meta($slider->ID, 'brasa_slider_id'.$id, true )).'"><img src="'.$img[0].'" class="img_slider"></a>';
 		    	$html .= '</div>';
-		    	$html .= '</div>';
-		    	return $html;
 		    }
+		    $html .= '</div>';
+		    return $html;
 		}
 		else{
 			return false;

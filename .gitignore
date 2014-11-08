@@ -27,3 +27,5 @@
 *.out
 *.app
 sftp-config.json
+terminal.glue
+*.glue
