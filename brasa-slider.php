@@ -135,7 +135,6 @@ class Brasa_Slider {
 		echo '<input type="text" name="brasa_slider_input" id="brasa_slider_hide" style="display:none">';
 		echo '<ul id="brasa_slider_sortable_ul">';
 		$ids = get_post_meta( $post->ID, 'brasa_slider_ids', true );
-		echo $ids;
 		if(!empty($ids)){
 			$ids = explode(',',$ids);
 			foreach ($ids as $id) {
