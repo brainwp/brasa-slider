@@ -10,7 +10,7 @@
  * @author   WPBrasil
  * @version  2.1.4
  */
-class Reveal_Modal_Metabox
+class Brasa_Slider_Metabox
 {
 
     /**

@@ -31,6 +31,9 @@ if ( ! defined( 'WPINC' ) ) {
 class Brasa_Slider {
 	public function __construct() {
 		define( 'BRASA_SLIDER_URL', plugin_dir_url( __FILE__ ) );
+		define( 'BRASA_SLIDER_DIR' , plugin_dir_path( __FILE__ ) );
+		require_once BRASA_SLIDER_DIR . 'inc/odin-metabox.php';
+		require_once BRASA_SLIDER_DIR . 'inc/metabox.php';
 		add_image_size( 'brasa_slider_img', 1006, 408, true );
 		add_action('init',array($this, 'init')); //init
 		add_action( 'admin_init', array($this, 'admin_scripts') );
@@ -215,9 +218,10 @@ class Brasa_Slider {
 		);
 		$slider = get_page_by_title( $atts['name'], OBJECT, 'brasa_slider_cpt' );
 		if(!empty($slider) && isset($slider)){
+			$cfg = get_post_meta($slider->ID,'brasa-slider-cfg',true);
 			$ids = get_post_meta( $slider->ID, 'brasa_slider_ids', true );
 			$ids = explode(',', $ids);
-		    $html = '<div class="col-md-12 is_slider" id="slider-'.$slider->post_name.'">';
+		    $html = '<div class="col-md-12 is_slider" id="slider-'.$slider->post_name.'" data-json="'.esc_attr($cfg).'">';
 		    foreach ($ids as $id) {
 		    	$img = get_post_thumbnail_id($id);
 		    	$img = wp_get_attachment_image_src( $img, 'brasa_slider_img', false );

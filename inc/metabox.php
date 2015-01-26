@@ -5,32 +5,30 @@
  * Date: 04/08/14
  * Time: 18:33
  */
-require_once plugin_dir_path( __FILE__ ) . '/odin-metabox.php' ;
-$_types = get_option( 'reveal-modal-options' );
-$_types = $_types['reveal-modal-types'];
-$_types = explode(',',$_types);
-$_meta = new Reveal_Modal_Metabox(
-    'reveal-modal-meta', // Metabox slug
-    'Reveal Modal', // Metabox name
-    $_types // post type
+$meta = new Brasa_Slider_Metabox(
+    'brasa-slider-metabox', // Metabox slug
+    'Configuration', // Metabox name
+    'brasa_slider_cpt', // post type
+    'side', //location
+    'low' //priority
+
 );
-$_meta->set_fields(
+$default = '{"dots": true,"infinite": true,"speed": 300,"slidesToShow": 1}';
+$meta->set_fields(
     array(
         /**
          * set meta field to active plugin in post
          */
         // Radio field.
         array(
-            'id'          => 'is_reveal_modal', // Required
-            'label'       => __( 'Active Reveal Modal in this post?', 'reveal-modal' ), // Required
-            'type'        => 'radio', // Required
-            // 'attributes' => array(), // Optional (html input elements)
-            'default'    => 'false', // Optional
-            //'description' => __( 'Radio field description', 'odin' ), // Optional
-            'options' => array( // Required (id => title)
-                'true'   => __( 'True', 'reveal-modal' ),
-                'false'   => __( 'False', 'reveal-modal' ),
-            ),
+            'id'          => 'brasa-slider-cfg', // Required
+            'label'       => __( 'Configure Slick JS <br>', 'brasa_slider' ), // Required
+            'type'        => 'textarea', // Required
+            'attributes' => array(
+            	'style' => 'display:block;width:100%;'
+            ), // Optional (html input elements)
+            'default'    => $default, // Optional
+            'description' => __( 'Read official Slick website for exemples & documentation: <a href="http://kenwheeler.github.io/slick/">http://kenwheeler.github.io/slick/</a>', 'brasa_slider' ), // Optional
         ),
     )
 );
