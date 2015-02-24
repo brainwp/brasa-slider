@@ -132,6 +132,7 @@ class Brasa_Slider {
 	public function render_search_meta($post){
 		_e('<input type="text" id="search_brasa_slider" placeholder="Search.. ">','brasa_slider');
 		_e('<a id="search-bt-slider" class="button button-primary button-large">Search!</a>','brasa_slider');
+		_e('<a class="button button-primary button-large select-image-brasa">Or select image</a>','brasa_slider');
 		echo '<div id="brasa_slider_result" data-url="'.home_url().'"></div>';
 	}
 	public function render_sortable_meta($post){
@@ -146,7 +147,13 @@ class Brasa_Slider {
 	      		echo get_the_title($id);
 	   			echo '</div><!-- title_item -->';
 				echo '<div class="thumb_item">';
-			    echo get_the_post_thumbnail($id, 'medium');
+				if(get_post_type($id) == 'attachment'){
+					$image_attributes = wp_get_attachment_image_src($id,'medium',false);
+					echo '<img src="'.$image_attributes[0].'">';
+				}
+				else{
+					echo get_the_post_thumbnail($id, 'medium');
+				}
 			   	_e('<a class="rm-item">Remove this</a>','brasa-slider');
 			    echo '</div><!-- thumb_item -->';
 	   		    echo '<div class="container_brasa_link" style="width:70%;margin-left:30%;">';
@@ -156,7 +163,7 @@ class Brasa_Slider {
 	   			echo '</li><!-- brasa_slider_item -->';
 			}
 		} else {
-			_e( '<span class="notice_not_item">No items added to the Slider. Use the \'Search Posts by Name\' to search for items and add to Slider.</span>' );
+			_e( '<span class="notice_not_item">No items added to the Slider. Use the \'Search Posts by Name\' to search for items and add to Slider.</span>','brasa_slider');
 		}
 		echo '</ul>';
 	}
@@ -227,7 +234,12 @@ class Brasa_Slider {
 			$ids = explode(',', $ids);
 		    $html = '<div class="col-md-12 is_slider" id="slider-'.$slider->post_name.'" data-json="'.esc_attr($cfg).'">';
 		    foreach ($ids as $id) {
-		    	$img = get_post_thumbnail_id($id);
+				if(get_post_type($id) == 'attachment'){
+					$img = $id;
+				}
+				else{
+					$img = get_post_thumbnail_id($id);
+				}
 		    	$img = wp_get_attachment_image_src( $img, 'brasa_slider_img', false );
 		    	$html .= '<div class="slick_slide">';
 		    	$html .= '<a href="'.esc_url(get_post_meta($slider->ID, 'brasa_slider_id'.$id, true )).'"><img src="'.$img[0].'" class="img_slider"></a>';

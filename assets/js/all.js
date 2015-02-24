@@ -38,4 +38,50 @@ jQuery(function($){
 
 
 	//$( '#brasa_slider_sortable' ).on( 'sortchange', updateInput() );
+
+	//select image button
+	 $( '.select-image-brasa' ).on( 'click', function ( e ) {
+		e.preventDefault();
+
+		var uploadFrame;
+
+			// If the media frame already exists, reopen it.
+			if ( uploadFrame ) {
+				uploadFrame.open();
+
+				return;
+			}
+
+			// Create the media frame.
+			uploadFrame = wp.media.frames.downloadable_file = wp.media({
+				title: odinAdminParams.uploadTitle,
+				button: {
+					text: odinAdminParams.uploadButton
+				},
+				multiple: false,
+				library: {
+					type: 'image'
+				}
+			});
+
+			uploadFrame.on( 'select', function () {
+				var attachment = uploadFrame.state().get( 'selection' ).first().toJSON();
+
+				var html = '<li class="brasa_slider_item" data-post-id="'+attachment.id+'">'
+	      			+'<img src="'+attachment.url+'">'
+	      			+'<div class="title_item">'
+	      			+'</div>'
+	      			+'<div class="container_brasa_link">'
+	      			+'<label>Link:</label><br>'
+	      			+'<input class="link_brasa_slider" type="text" name="brasa_slider_link_'+attachment.id+'" placeholder="Link (Destination URL)" value="">'
+	      			+'</div>'
+	      			+'<a class="rm-item" data-post-id="'+attachment.id+'">Remove this</a>'
+	      			+'</li>';
+	      		$('#brasa_slider_sortable_ul').append(html);
+	      		updateInput();
+			});
+
+			// Finally, open the modal.
+			uploadFrame.open();
+		});
 });
