@@ -232,6 +232,7 @@ class Brasa_Slider {
 			$cfg = get_post_meta($slider->ID,'brasa-slider-cfg',true);
 			$ids = get_post_meta( $slider->ID, 'brasa_slider_ids', true );
 			$ids = explode(',', $ids);
+			$size = get_post_meta( $slider->ID, 'brasa_slider_size', true );
 		    $html = '<div class="col-md-12 is_slider" id="slider-'.$slider->post_name.'" data-json="'.esc_attr($cfg).'">';
 		    foreach ($ids as $id) {
 				if(get_post_type($id) == 'attachment'){
@@ -240,7 +241,7 @@ class Brasa_Slider {
 				else{
 					$img = get_post_thumbnail_id($id);
 				}
-		    	$img = wp_get_attachment_image_src( $img, 'brasa_slider_img', false );
+		    	$img = wp_get_attachment_image_src( $img, $size, false );
 		    	$html .= '<div class="slick_slide">';
 		    	$html .= '<a href="'.esc_url(get_post_meta($slider->ID, 'brasa_slider_id'.$id, true )).'"><img src="'.$img[0].'" class="img_slider"></a>';
 		    	$html .= '</div>';
