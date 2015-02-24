@@ -40,6 +40,15 @@
 	width:100px;
 	height:auto;
 }
+.brasa_slider_item img.wp-post-image {
+	float: left;
+	margin-right: 25px;
+}
+.brasa_slider_item .container_brasa_link {
+	display: block;
+	float: left;
+	width: 60%;
+}
 #brasa_slider_search{
 	padding:10px;
 }

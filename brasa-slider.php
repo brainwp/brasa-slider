@@ -114,7 +114,7 @@ class Brasa_Slider {
 	public function add_boxes(){
 		add_meta_box(
 			'brasa_slider_search'
-			,__( 'Search posts by name', 'brasa_slider' )
+			,__( 'Search Posts by Name', 'brasa_slider' )
 			,array( $this, 'render_search_meta' )
 			,'brasa_slider_cpt'
 			,'advanced'
@@ -122,7 +122,7 @@ class Brasa_Slider {
 			);
 		add_meta_box(
 			'brasa_slider_sortable'
-			,__( 'Order slider', 'brasa_slider' )
+			,__( 'Order Slider', 'brasa_slider' )
 			,array( $this, 'render_sortable_meta' )
 			,'brasa_slider_cpt'
 			,'advanced'
@@ -144,17 +144,19 @@ class Brasa_Slider {
 				echo '<li class="brasa_slider_item is_item" data-post-id="'.$id.'" id="'.$id.'">';
 				echo '<div class="title_item">';
 	      		echo get_the_title($id);
-	   			echo '</div>';
+	   			echo '</div><!-- title_item -->';
 				echo '<div class="thumb_item">';
-			    echo get_the_post_thumbnail($id);
+			    echo get_the_post_thumbnail($id, 'medium');
 			   	_e('<a class="rm-item">Remove this</a>','brasa-slider');
-			    echo '</div>';
+			    echo '</div><!-- thumb_item -->';
 	   		    echo '<div class="container_brasa_link" style="width:70%;margin-left:30%;">';
 	      		echo '<label class="link">Link (URL):</label><br>';
 	      		echo '<input class="link_brasa_slider" type="text" name="brasa_slider_link_'.$id.'" placeholder="'.__('Link','brasa_slider').'" value="'.esc_url(get_post_meta($post->ID, 'brasa_slider_id'.$id, true )).'">';
-	 			echo '</div>';
-	   			echo '</li>';
+	 			echo '</div><!-- container_brasa_link -->';
+	   			echo '</li><!-- brasa_slider_item -->';
 			}
+		} else {
+			_e( '<span class="notice_not_item">No items added to the Slider. Use the \'Search Posts by Name\' to search for items and add to Slider.</span>' );
 		}
 		echo '</ul>';
 	}
@@ -178,13 +180,13 @@ class Brasa_Slider {
 	      		while ( $query->have_posts() ) {
 	      			$query->the_post();
 	      			echo '<div class="brasa_slider_item" data-post-id="'.get_the_ID().'">';
-	      			the_post_thumbnail();
+	      			the_post_thumbnail( 'medium' );
 	      			echo '<div class="title_item">';
 	      			the_title();
 	      			echo '</div>';
-	      			echo '<div class="container_brasa_link" style="width:100%;margin-left:25%;">';
+	      			echo '<div class="container_brasa_link">';
 	      			echo '<label>Link:</label><br>';
-	      			echo '<input class="link_brasa_slider" type="text" name="brasa_slider_link_'.get_the_ID().'" placeholder="'.__('Link','brasa_slider').'" value="'.get_permalink(get_the_ID()).'">';
+	      			echo '<input class="link_brasa_slider" type="text" name="brasa_slider_link_'.get_the_ID().'" placeholder="'.__('Link (Destination URL)','brasa_slider').'" value="'.get_permalink(get_the_ID()).'">';
 	      			echo '</div>';
 	      			_e('<a class="rm-item" data-post-id="'.get_the_ID().'">Remove this</a>','brasa-slider');
 	      			echo '</div>';
