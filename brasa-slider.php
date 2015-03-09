@@ -154,7 +154,7 @@ class Brasa_Slider {
 				else{
 					echo get_the_post_thumbnail($id, 'medium');
 				}
-			   	_e('<a class="rm-item">Remove this</a>','brasa-slider');
+			   	echo sprintf(__('<a class="rm-item" data-post-id="%s">Remove this</a>','brasa-slider'),$id);
 			    echo '</div><!-- thumb_item -->';
 	   		    echo '<div class="container_brasa_link" style="width:70%;margin-left:30%;">';
 	      		echo '<label class="link">Link (URL):</label><br>';
