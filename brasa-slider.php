@@ -233,8 +233,14 @@ class Brasa_Slider {
 			$ids = get_post_meta( $slider->ID, 'brasa_slider_ids', true );
 			$ids = explode(',', $ids);
 			$size = get_post_meta( $slider->ID, 'brasa_slider_size', true );
+			global $brasa_slider_id;
+			$brasa_slider_id = $slider->ID;
+			do_action( 'brasa_slider_before_foreach', $ids, $slider->ID );
 		    $html = '<div class="col-md-12 is_slider" id="slider-'.$slider->post_name.'" data-json="'.esc_attr($cfg).'">';
 		    foreach ($ids as $id) {
+		    	global $brasa_slider_item_id;
+		    	$brasa_slider_item_id = $id;
+		    	do_action( 'brasa_slider_loop_header');
 				if(get_post_type($id) == 'attachment'){
 					$img = $id;
 				}
@@ -243,7 +249,11 @@ class Brasa_Slider {
 				}
 		    	$img = wp_get_attachment_image_src( $img, $size, false );
 		    	$html .= '<div class="slick_slide">';
-		    	$html .= '<a href="'.esc_url(get_post_meta($slider->ID, 'brasa_slider_id'.$id, true )).'"><img src="'.$img[0].'" class="img_slider"></a>';
+		    	$html  = apply_filters( 'brasa_slider_loop_before_link_container', $html );
+		    	$html .= '<a href="'.esc_url(get_post_meta($slider->ID, 'brasa_slider_id'.$id, true )).'">';
+		    	$html  = apply_filters( 'brasa_slider_loop_before_image', $html );
+		    	$html .= '<img src="'.$img[0].'" class="img_slider"></a>';
+		    	$html  = apply_filters( 'brasa_slider_loop_after_image', $html );
 		    	$html .= '</div>';
 		    }
 		    $html .= '</div>';
