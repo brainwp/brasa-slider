@@ -25,7 +25,6 @@ function slider_resumo($str){
 	}
  else{
 
-	//aqui vc retorna o resumo
     	$the_post = get_post($brasa_slider_item_id);
 		$category = get_the_category($brasa_slider_item_id); 
 		$ultimo = end($category);
