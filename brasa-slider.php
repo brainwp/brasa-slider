@@ -247,7 +247,8 @@ class Brasa_Slider {
 				else{
 					$img = get_post_thumbnail_id($id);
 				}
-		    	$img = wp_get_attachment_image_src( $img, $size, false );
+				$size = apply_filters('brasa_slider_img_size', $size);
+				$img = wp_get_attachment_image_src( $img, $size, false );
 		    	$html .= '<div class="slick_slide">';
 		    	$html  = apply_filters( 'brasa_slider_loop_before_link_container', $html );
 		    	$html .= '<a href="'.esc_url(get_post_meta($slider->ID, 'brasa_slider_id'.$id, true )).'">';
