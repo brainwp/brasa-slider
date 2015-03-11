@@ -81,8 +81,8 @@ class Brasa_Slider_Metabox
             wp_enqueue_script('jquery-ui-sortable');
 
             // Metabox.
-            wp_enqueue_style('odin-admin', REVEALWPURL . 'assets/css/admin.css', array(), null, 'all');
-            wp_enqueue_script('odin-admin', REVEALWPURL . 'assets/js/admin.js', array('jquery'), null, true);
+            //wp_enqueue_style('odin-admin', REVEALWPURL . 'assets/css/admin.css', array(), null, 'all');
+            //wp_enqueue_script('odin-admin', REVEALWPURL . 'assets/js/admin.js', array('jquery'), null, true);
 
             // Localize strings.
             wp_localize_script(
