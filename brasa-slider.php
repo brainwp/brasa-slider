@@ -225,6 +225,7 @@ class Brasa_Slider {
 		extract( shortcode_atts(
 			array(
 				'name' => '',
+				'size' => '',
 				), $atts )
 		);
 		$slider = get_page_by_title( $atts['name'], OBJECT, 'brasa_slider_cpt' );
@@ -232,7 +233,7 @@ class Brasa_Slider {
 			$cfg = get_post_meta($slider->ID,'brasa-slider-cfg',true);
 			$ids = get_post_meta( $slider->ID, 'brasa_slider_ids', true );
 			$ids = explode(',', $ids);
-			$size = get_post_meta( $slider->ID, 'brasa_slider_size', true );
+			$size = (!empty($atts['size'])) ? $atts['size'] : get_post_meta( $slider->ID, 'brasa_slider_size', true );
 			global $brasa_slider_id;
 			$brasa_slider_id = $slider->ID;
 			do_action( 'brasa_slider_before_foreach', $ids, $slider->ID );
