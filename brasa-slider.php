@@ -226,11 +226,12 @@ class Brasa_Slider {
 			array(
 				'name' => '',
 				'size' => '',
+				'json' => ''
 				), $atts )
 		);
 		$slider = get_page_by_title( $atts['name'], OBJECT, 'brasa_slider_cpt' );
 		if(!empty($slider) && isset($slider)){
-			$cfg = get_post_meta($slider->ID,'brasa-slider-cfg',true);
+			$cfg = (!empty($atts['json'])) ? $atts['json'] : get_post_meta($slider->ID,'brasa-slider-cfg',true);;
 			$ids = get_post_meta( $slider->ID, 'brasa_slider_ids', true );
 			$ids = explode(',', $ids);
 			$size = (!empty($atts['size'])) ? $atts['size'] : get_post_meta( $slider->ID, 'brasa_slider_size', true );
