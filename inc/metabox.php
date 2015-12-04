@@ -13,7 +13,7 @@ $meta = new Brasa_Slider_Metabox(
     'low' //priority
 
 );
-$default = '{"dots": true,"infinite": true,"speed": 300,"slidesToShow": 1}';
+$default = '{"dots": true,"infinite": true,"speed": 3000, "autoplay":true, "autoplaySpeed": 5000, "slidesToShow": 1}';
 $sizes = array();
 $sizes['brasa_slider_img'] = __('Default size','brasa_slider');
 $get_intermediate_image_sizes = get_intermediate_image_sizes();
