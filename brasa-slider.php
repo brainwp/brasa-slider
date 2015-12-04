@@ -32,11 +32,10 @@ class Brasa_Slider {
 	public function __construct() {
 		define( 'BRASA_SLIDER_URL', plugin_dir_url( __FILE__ ) );
 		define( 'BRASA_SLIDER_DIR' , plugin_dir_path( __FILE__ ) );
-		require_once BRASA_SLIDER_DIR . 'inc/odin-metabox.php';
-		require_once BRASA_SLIDER_DIR . 'inc/metabox.php';
 		add_image_size( 'brasa_slider_img', 1006, 408, true );
+
 		add_action('init',array($this, 'init')); //init
-		add_action( 'admin_init', array($this, 'admin_scripts') );
+		add_action( 'admin_init', array( $this, 'admin_scripts' ), 9999999 );
 		add_action( 'add_meta_boxes', array( $this, 'add_boxes' ) );
 		add_action( 'save_post', array( $this, 'save' ) );
 		add_shortcode( 'brasa_slider',  array( $this, 'shortcode' ) );
@@ -110,6 +109,11 @@ class Brasa_Slider {
 				array('jquery')
 				);
 		}
+
+		// add metabox
+		require_once BRASA_SLIDER_DIR . 'inc/odin-metabox.php';
+		require_once BRASA_SLIDER_DIR . 'inc/metabox.php';
+
 	}
 	public function add_boxes(){
 		add_meta_box(

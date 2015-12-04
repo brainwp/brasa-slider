@@ -11,7 +11,6 @@ $meta = new Brasa_Slider_Metabox(
     'brasa_slider_cpt', // post type
     'side', //location
     'low' //priority
-
 );
 $default = '{"dots": true,"infinite": true,"speed": 3000, "autoplay":true, "autoplaySpeed": 5000, "slidesToShow": 1}';
 $sizes = array();
