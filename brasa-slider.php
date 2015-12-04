@@ -10,16 +10,16 @@
  *
  * @wordpress-plugin
  * Plugin Name:       Brasa Slider
- * Plugin URI:        http://codeispoetry.info/plugins/reveal-modal
+ * Plugin URI:        http://brasa.art.br
  * Description:       Brasa Slider
  * Version:           1.0.0
  * Author:            Matheus Gimenez
- * Plugin URI:        http://codeispoetry.info/plugins/reveal-modal
+ * Plugin URI:        http://brasa.art.br
  * Text Domain:       brasa_slider
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * Domain Path:       /languages
- * GitHub Plugin URI: https://github.com/brasadesign/reveal-modal
+ * GitHub Plugin URI: https://github.com/brasadesign/brasa-slider
  */
 
 // If this file is called directly, abort.
@@ -38,7 +38,11 @@ class Brasa_Slider {
 		add_action( 'admin_init', array( $this, 'admin_scripts' ), 9999999 );
 		add_action( 'add_meta_boxes', array( $this, 'add_boxes' ) );
 		add_action( 'save_post', array( $this, 'save' ) );
+		add_action( 'plugins_loaded', array( $this, 'text_domain' ) );
 		add_shortcode( 'brasa_slider',  array( $this, 'shortcode' ) );
+	}
+	public function text_domain() {
+		load_plugin_textdomain( 'brasa_slider', false, BRASA_SLIDER_DIR . 'languages' );
 	}
 	public function init(){
 		if(isset($_GET['brasa_slider_ajax']) && $_GET['brasa_slider_ajax'] == 'true' && current_user_can('edit_posts')){
