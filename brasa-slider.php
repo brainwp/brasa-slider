@@ -27,8 +27,103 @@ if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
+/**
+ * Return HTML template
+ * @param string $template_name
+ */
+function brasa_slider_get_template_html( $template_name ) {
+	ob_start();
+	brasa_slider_locate_template( array( $template_name ), true );
+	return ob_get_clean();
+}
+/**
+ * Retrieve the name of the highest priority template file that exists.
+ *
+ * Searches in the STYLESHEETPATH before TEMPLATEPATH so that themes which
+ * inherit from a parent theme can just overload one file. If the template is
+ * not found in either of those, it looks in the theme-compat folder last.
+ *
+ * Taken from bbPress
+ *
+ *
+ * @param string|array $template_names Template file(s) to search for, in order.
+ * @param bool $load If true the template file will be loaded if it is found.
+ * @param bool $require_once Whether to require_once or require. Default true.
+ *                            Has no effect if $load is false.
+ * @return string The template filename if one is located.
+ */
+function brasa_slider_locate_template( $template_names, $load = false, $require_once = true ) {
+	// No file found yet
+	$located = false;
 
+	// Try to find a template file
+	foreach ( (array) $template_names as $template_name ) {
+
+		// Continue if template is empty
+		if ( empty( $template_name ) )
+			continue;
+
+		// Trim off any slashes from the template name
+		$template_name = ltrim( $template_name, '/' );
+
+		// Check child theme first
+		if ( file_exists( trailingslashit( get_stylesheet_directory() ) . 'brasa/' . $template_name ) ) {
+			$located = trailingslashit( get_stylesheet_directory() ) . 'brasa/' . $template_name;
+			break;
+
+		// Check parent theme next
+		} elseif ( file_exists( trailingslashit( get_template_directory() ) . 'brasa/' . $template_name ) ) {
+			$located = trailingslashit( get_template_directory() ) . 'brasa/' . $template_name;
+		} else {
+			// load plugin file
+			$located = trailingslashit( plugin_dir_path( __FILE__ ) ) . 'templates/' . $template_name;
+		}
+	}
+
+	if ( ( true == $load ) && ! empty( $located ) )
+		load_template( $located, $require_once );
+
+	return $located;
+}
+/**
+ * Retrieves a template part
+ *
+ * @since v1.5
+ *
+ * Taken from bbPress
+ *
+ * @param string $slug
+ * @param string $name Optional. Default null
+ *
+ * @uses  rcp_locate_template()
+ * @uses  load_template()
+ * @uses  get_template_part()
+ */
+function brasa_slider_get_template_part( $slug, $name = null, $load = true ) {
+	// Execute code for this part
+	do_action( 'get_template_part_' . $slug, $slug, $name );
+
+	// Setup possible parts
+	$templates = array();
+	if ( isset( $name ) )
+		$templates[] = $slug . '-' . $name . '.php';
+	$templates[] = $slug . '.php';
+
+	// Allow template parts to be filtered
+	$templates = apply_filters( 'rcp_get_template_part', $templates, $slug, $name );
+
+	// Return the part that is found
+	return brasa_slider_locate_template( $templates, $load, false );
+}
+
+/**
+ * Brasa_Slider Class
+ */
 class Brasa_Slider {
+	/**
+	 * Constructor: define things & add actions
+	 * @return null
+	 */
 	public function __construct() {
 		define( 'BRASA_SLIDER_URL', plugin_dir_url( __FILE__ ) );
 		define( 'BRASA_SLIDER_DIR' , plugin_dir_path( __FILE__ ) );
@@ -41,9 +136,17 @@ class Brasa_Slider {
 		add_action( 'plugins_loaded', array( $this, 'text_domain' ) );
 		add_shortcode( 'brasa_slider',  array( $this, 'shortcode' ) );
 	}
+	/**
+	 * Load text domain
+	 * @return null
+	 */
 	public function text_domain() {
 		load_plugin_textdomain( 'brasa_slider', false, BRASA_SLIDER_DIR . 'languages' );
 	}
+	/**
+	 * Init things
+	 * @return null
+	 */
 	public function init(){
 		if(isset($_GET['brasa_slider_ajax']) && $_GET['brasa_slider_ajax'] == 'true' && current_user_can('edit_posts')){
 			$this->ajax_search();
@@ -57,6 +160,10 @@ class Brasa_Slider {
 		wp_enqueue_style( 'brasa_slider_css_frontend', BRASA_SLIDER_URL . 'assets/css/slick.css' );
 		$this->register_cpt();
 	}
+	/**
+	 * Register post type
+	 * @return null
+	 */
 	private function register_cpt(){
 		$labels = array(
 			'name'                => _x( 'Brasa Sliders', 'Post Type General Name', 'brasa_slider' ),
@@ -95,6 +202,10 @@ class Brasa_Slider {
 			);
 		register_post_type( 'brasa_slider_cpt', $args );
 	}
+	/**
+	 * Load scripts on dashboard
+	 * @return null
+	 */
 	public function admin_scripts(){
 		if(isset($_GET['post'])){
 			$post = get_post($_GET['post']);
@@ -119,6 +230,10 @@ class Brasa_Slider {
 		require_once BRASA_SLIDER_DIR . 'inc/metabox.php';
 
 	}
+	/**
+	 * Add metaboxes
+	 * @return null;
+	 */
 	public function add_boxes(){
 		add_meta_box(
 			'brasa_slider_search'
@@ -137,12 +252,22 @@ class Brasa_Slider {
 			,'core'
 			);
 	}
+	/**
+	 * Render search meta
+	 * @param object $post
+	 * @return write
+	 */
 	public function render_search_meta($post){
 		_e('<input type="text" id="search_brasa_slider" placeholder="Search.. ">','brasa_slider');
 		_e('<a id="search-bt-slider" class="button button-primary button-large">Search!</a>','brasa_slider');
 		_e('<a class="button button-primary button-large select-image-brasa">Or select image</a>','brasa_slider');
 		echo '<div id="brasa_slider_result" data-url="'.home_url().'"></div>';
 	}
+	/**
+	 * Render sortable meta
+	 * @param object $post
+	 * @return write
+	 */
 	public function render_sortable_meta($post){
 		echo '<input type="text" name="brasa_slider_input" id="brasa_slider_hide" style="display:none">';
 		echo '<ul id="brasa_slider_sortable_ul">';
@@ -175,6 +300,10 @@ class Brasa_Slider {
 		}
 		echo '</ul>';
 	}
+	/**
+	 * Run AJAX posts search
+	 * @return null
+	 */
 	private function ajax_search(){
 		$key = $_GET['key'];
 	      	/**
@@ -212,6 +341,11 @@ class Brasa_Slider {
 	      	}
 	    die();
 	}
+	/**
+	 * Save slider
+	 * @param int $post_id
+	 * @return null
+	 */
 	public function save($post_id){
 		if(isset($_POST['brasa_slider_input'])){
 			$ids = $_POST['brasa_slider_input'];
@@ -227,6 +361,12 @@ class Brasa_Slider {
 			}
 		}
 	}
+
+	/**
+	 * Add slider shortcode
+	 * @param array $atts
+	 * @return string|null
+	 */
 	public function shortcode($atts){
 		$html = '';
 		// Attributes
@@ -237,37 +377,12 @@ class Brasa_Slider {
 				'json' => ''
 				), $atts )
 		);
+
 		$slider = get_page_by_title( $atts['name'], OBJECT, 'brasa_slider_cpt' );
+		$GLOBALS[ 'slider' ] = $slider;
+		$GLOBALS[ 'atts' ] = $atts;
 		if(!empty($slider) && isset($slider)){
-			$cfg = (!empty($atts['json'])) ? $atts['json'] : get_post_meta($slider->ID,'brasa-slider-cfg',true);;
-			$ids = get_post_meta( $slider->ID, 'brasa_slider_ids', true );
-			$ids = explode(',', $ids);
-			$size = (!empty($atts['size'])) ? $atts['size'] : get_post_meta( $slider->ID, 'brasa_slider_size', true );
-			global $brasa_slider_id;
-			$brasa_slider_id = $slider->ID;
-			do_action( 'brasa_slider_before_foreach', $ids, $slider->ID );
-		    $html = '<div class="col-md-12 is_slider" id="slider-'.$slider->post_name.'" data-json="'.esc_attr($cfg).'">';
-		    foreach ($ids as $id) {
-		    	global $brasa_slider_item_id;
-		    	$brasa_slider_item_id = $id;
-		    	do_action( 'brasa_slider_loop_header');
-				if(get_post_type($id) == 'attachment'){
-					$img = $id;
-				}
-				else{
-					$img = get_post_thumbnail_id($id);
-				}
-				$size = apply_filters('brasa_slider_img_size', $size);
-				$img = wp_get_attachment_image_src( $img, $size, false );
-		    	$html .= '<div class="slick_slide">';
-		    	$html  = apply_filters( 'brasa_slider_loop_before_link_container', $html );
-		    	$html .= '<a href="'.esc_url(get_post_meta($slider->ID, 'brasa_slider_id'.$id, true )).'">';
-		    	$html  = apply_filters( 'brasa_slider_loop_before_image', $html );
-		    	$html .= '<img src="'.$img[0].'" class="img_slider"></a>';
-		    	$html  = apply_filters( 'brasa_slider_loop_after_image', $html );
-		    	$html .= '</div>';
-		    }
-		    $html .= '</div>';
+			$html = brasa_slider_get_template_html( 'slider.php' );
 		    return $html;
 		}
 		else{
