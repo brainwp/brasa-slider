@@ -213,11 +213,7 @@ class Brasa_Slider {
 		if(isset($_GET['post_type']) && $_GET['post_type'] == 'brasa_slider_cpt' || isset($post) && $post->post_type == 'brasa_slider_cpt'){
 			wp_enqueue_style( 'brasa_slider_css', BRASA_SLIDER_URL . 'assets/css/admin.css' );
 			wp_enqueue_script('jquery');
-			wp_enqueue_script(
-				'brasa_slider_jqueryui_js',
-				BRASA_SLIDER_URL . 'assets/js/jquery-ui.min.js',
-				array('jquery')
-				);
+			wp_enqueue_script( 'jquery-ui-sortable' );
 			wp_enqueue_script(
 				'brasa_slider_all_js',
 				BRASA_SLIDER_URL . 'assets/js/all.js',
