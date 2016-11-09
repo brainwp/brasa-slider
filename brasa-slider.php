@@ -23,9 +23,7 @@
  */
 
 // If this file is called directly, abort.
-if ( ! defined( 'WPINC' ) ) {
-	die;
-}
+if ( ! defined( 'ABSPATH' ) ) exit;
 
 /**
  * Return HTML template
@@ -110,7 +108,7 @@ function brasa_slider_get_template_part( $slug, $name = null, $load = true ) {
 	$templates[] = $slug . '.php';
 
 	// Allow template parts to be filtered
-	$templates = apply_filters( 'rcp_get_template_part', $templates, $slug, $name );
+	$templates = apply_filters( 'brasa_get_template_part', $templates, $slug, $name );
 
 	// Return the part that is found
 	return brasa_slider_locate_template( $templates, $load, false );
@@ -208,7 +206,7 @@ class Brasa_Slider {
 	 */
 	public function admin_scripts(){
 		if(isset($_GET['post'])){
-			$post = get_post($_GET['post']);
+			$post = get_post( intval( $_GET['post'] ) ) ;
 		}
 		if(isset($_GET['post_type']) && $_GET['post_type'] == 'brasa_slider_cpt' || isset($post) && $post->post_type == 'brasa_slider_cpt'){
 			wp_enqueue_style( 'brasa_slider_css', BRASA_SLIDER_URL . 'assets/css/admin.css' );
@@ -268,8 +266,8 @@ class Brasa_Slider {
 		echo '<input type="text" name="brasa_slider_input" id="brasa_slider_hide" style="display:none">';
 		echo '<ul id="brasa_slider_sortable_ul">';
 		$ids = get_post_meta( $post->ID, 'brasa_slider_ids', true );
-		if(!empty($ids)){
-			$ids = explode(',',$ids);
+		$ids = explode( ',', $ids );
+		if( !empty($ids) && is_array( $ids ) ){
 			foreach ($ids as $id) {
 				echo '<li class="brasa_slider_item is_item" data-post-id="'.$id.'" id="'.$id.'">';
 				echo '<div class="title_item">';
@@ -344,11 +342,11 @@ class Brasa_Slider {
 	 */
 	public function save($post_id){
 		if(isset($_POST['brasa_slider_input'])){
-			$ids = $_POST['brasa_slider_input'];
-			if(!empty($ids)){
+			$ids = esc_textarea( $_POST['brasa_slider_input'] );
+			$all_ids = explode(',', $ids);
+			if( is_array( $all_ids ) && ! empty( $all_ids ) ){
 				update_post_meta($post_id, 'brasa_slider_ids', $ids);
-				$ids = explode(',', $ids);
-				foreach ($ids as $id) {
+				foreach ($all_ids as $id) {
 					update_post_meta($post_id,'brasa_slider_id'.$id,esc_url($_POST['brasa_slider_link_'.$id]));
 				}
 			}

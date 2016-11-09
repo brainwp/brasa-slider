@@ -1,10 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: root
- * Date: 04/08/14
- * Time: 18:33
- */
+if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 $meta = new Brasa_Slider_Metabox(
     'brasa-slider-metabox', // Metabox slug
     'Configuration', // Metabox name
