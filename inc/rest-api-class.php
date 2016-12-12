@@ -17,6 +17,10 @@ class Brasa_Slider_API {
 		 */
 		add_action( 'rest_api_init', array( &$this, 'rest_api_init' ) );
 	}
+	/**
+	 * init rest api
+	 * @return null
+	 */
 	public function rest_api_init() {
 		register_rest_route( 'brasa-slider', '/id/(?P<slider>\d+)', array(
 			'methods' => 'GET',
@@ -27,6 +31,11 @@ class Brasa_Slider_API {
 			'callback' => array( &$this, 'endpoint' )
 		) );
 	}
+	/**
+	 * process endpoint data and return it
+	 * @param object $request
+	 * @return object
+	 */
 	public function endpoint( $request ) {
 		// get parameters
 		$parameters = $request->get_params();
