@@ -385,3 +385,6 @@ class Brasa_Slider {
 	}
 }
 new Brasa_Slider();
+
+// class to support rest api
+require_once( BRASA_SLIDER_DIR . 'inc/rest-api-class.php' );
