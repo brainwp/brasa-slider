@@ -18,7 +18,11 @@ class Brasa_Slider_API {
 		add_action( 'rest_api_init', array( &$this, 'rest_api_init' ) );
 	}
 	public function rest_api_init() {
-		register_rest_route( 'brasa-slider', '/(?P<slider>[a-zA-Z0-9-]+)', array(
+		register_rest_route( 'brasa-slider', '/id/(?P<slider>\d+)', array(
+			'methods' => 'GET',
+			'callback' => array( &$this, 'endpoint' )
+		) );
+		register_rest_route( 'brasa-slider', '/name', array(
 			'methods' => 'GET',
 			'callback' => array( &$this, 'endpoint' )
 		) );
