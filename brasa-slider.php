@@ -12,7 +12,7 @@
  * Plugin Name:       Brasa Slider
  * Plugin URI:        http://brasa.art.br
  * Description:       Brasa Slider
- * Version:           1.1.0
+ * Version:           1.1b
  * Author:            Matheus Gimenez
  * Plugin URI:        http://brasa.art.br
  * Text Domain:       brasa_slider
@@ -149,13 +149,15 @@ class Brasa_Slider {
 		if(isset($_GET['brasa_slider_ajax']) && $_GET['brasa_slider_ajax'] == 'true' && current_user_can('edit_posts')){
 			$this->ajax_search();
 		}
-		wp_enqueue_script('jquery');
-		wp_enqueue_script(
-			'brasa_slider_jqueryui_js',
-			BRASA_SLIDER_URL . 'assets/js/slick.min.js',
-			array('jquery')
-		);
-		wp_enqueue_style( 'brasa_slider_css_frontend', BRASA_SLIDER_URL . 'assets/css/slick.css' );
+		if( ! defined( 'BRASA_SLIDER_REMOVE_FRONTEND' ) || BRASA_SLIDER_REMOVE_FRONTEND === false ) {
+			wp_enqueue_script('jquery');
+			wp_enqueue_script(
+				'brasa_slider_jqueryui_js',
+				BRASA_SLIDER_URL . 'assets/js/slick.min.js',
+				array('jquery')
+			);
+			wp_enqueue_style( 'brasa_slider_css_frontend', BRASA_SLIDER_URL . 'assets/css/slick.css' );
+		}
 		$this->register_cpt();
 	}
 	/**

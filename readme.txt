@@ -22,3 +22,5 @@ After installing the plugin go to your dashboard and create a new slider. You ha
 
 = 1.1.0 =
 * Added support to rest API (create a rest endpoint )
+= 1.1b =
+* Added constant to remove frontend things (script, css, etc) *
