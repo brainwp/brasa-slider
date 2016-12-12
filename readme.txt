@@ -17,3 +17,8 @@ After installing the plugin go to your dashboard and create a new slider. You ha
 
 1. Upload the plugin files to the `/wp-content/plugins/brasa-slider` directory, or install the plugin through the WordPress plugins screen directly.
 2. Activate the plugin through the 'Plugins' screen in WordPress
+
+== Changelog ==
+
+= 1.1.0 =
+* Added support to rest API (create a rest endpoint )
