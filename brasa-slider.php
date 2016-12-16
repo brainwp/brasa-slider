@@ -12,7 +12,7 @@
  * Plugin Name:       Brasa Slider
  * Plugin URI:        http://brasa.art.br
  * Description:       Brasa Slider
- * Version:           1.1b
+ * Version:           1.1d
  * Author:            Matheus Gimenez
  * Plugin URI:        http://brasa.art.br
  * Text Domain:       brasa_slider

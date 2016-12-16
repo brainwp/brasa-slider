@@ -95,7 +95,26 @@ class Brasa_Slider_API {
 		}
 		$data[ 'slider_size' ] = count( $ids );
 		$data[ 'image_size' ] = $parameters[ 'image_size' ];
+		// show template parameter
+		if ( isset( $parameters[ 'print_template'] ) && $parameters[ 'print_template'] == 'true' ) {
+			$data[ 'template' ] = $this->print_template( $slider );
+		}
 		return new WP_REST_Response( $data );
+	}
+	/**
+	 * Print template HTML
+	 * @param object $slider
+	 * @return string
+	 */
+	private function print_template( $slider) {
+		$GLOBALS[ 'slider' ] = $slider;
+		$GLOBALS[ 'atts' ] = array();
+
+		if( !empty( $slider ) && isset( $slider ) ){
+			$html = brasa_slider_get_template_html( 'slider.php' );
+		    return $html;
+		}
+
 	}
 }
 new Brasa_Slider_API();
