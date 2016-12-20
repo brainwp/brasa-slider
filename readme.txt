@@ -1,5 +1,5 @@
 === Plugin Name ===
-Contributors: MatheusGimenez, brasadesign
+Contributors: MatheusGimenez, brasadesign, everaldomatias
 Donate link: http://brasa.art.br
 Tags: slider, brasa, post slider, rest api, support rest api
 Requires at least: 4.5

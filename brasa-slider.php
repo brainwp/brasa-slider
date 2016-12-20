@@ -356,6 +356,8 @@ class Brasa_Slider {
 			    delete_post_meta( $post_id, 'brasa_slider_ids' );
 			}
 		}
+		/* Delete transients in save_post */
+		delete_transient( 'brasa_slider_cache_' . sanitize_title( get_the_title( $post_id ) ) );
 	}
 
 	/**
@@ -374,7 +376,18 @@ class Brasa_Slider {
 				), $atts )
 		);
 
-		$slider = get_page_by_title( $atts['name'], OBJECT, 'brasa_slider_cpt' );
+		/* Get transient */
+		$brasa_slider_transient = get_transient( 'brasa_slider_cache_' . sanitize_title( $atts['name'] ) );
+
+		if ( false === ( $brasa_slider_transient ) ) {
+			$slider = get_page_by_title( $atts['name'], OBJECT, 'brasa_slider_cpt' );
+
+			/* Create transient for this slider */
+			set_transient( 'brasa_slider_cache_' . sanitize_title( $atts['name'] ), $slider, DAY_IN_SECONDS );
+		} else {
+			$slider = $brasa_slider_transient;
+		}
+
 		$GLOBALS[ 'slider' ] = $slider;
 		$GLOBALS[ 'atts' ] = $atts;
 		if(!empty($slider) && isset($slider)){
