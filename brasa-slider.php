@@ -265,8 +265,15 @@ class Brasa_Slider {
 	 * @return write
 	 */
 	public function render_sortable_meta($post){
+		global $pagenow;
+
 		echo '<input type="text" name="brasa_slider_input" id="brasa_slider_hide" style="display:none">';
 		echo '<ul id="brasa_slider_sortable_ul">';
+		if ( is_string( $pagenow ) && $pagenow == 'post-new.php' ) {
+			_e( '<span class="notice_not_item">No items added to the Slider. Use the \'Search Posts by Name\' to search for items and add to Slider.</span>','brasa_slider');
+			echo '</ul>';
+			return;
+		}
 		$ids = get_post_meta( $post->ID, 'brasa_slider_ids', true );
 		$ids = explode( ',', $ids );
 		if( !empty($ids) && is_array( $ids ) ){
