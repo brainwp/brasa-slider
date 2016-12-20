@@ -20,6 +20,7 @@ After installing the plugin go to your dashboard and create a new slider. You ha
 == Changelog ==
 = 1.1e =
 * Add transient for optimization on get slider posts *
+* Fix void slider item *
 = 1.1d =
 * Add rest API parameter to print template in HTML *
 = 1.1c =
