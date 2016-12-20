@@ -62,8 +62,19 @@ class Brasa_Slider_API {
 				return new WP_Error( 'no_slider', 'Invalid slider ID or Name', array( 'status' => 404 ) );
 			}
 		} else {
-			// if is name get slider from db by name
-			$slider = get_page_by_title( $parameters[ 'slider'], OBJECT, 'brasa_slider_cpt' );
+			/* Get transient */
+			$brasa_slider_transient = get_transient( 'brasa_slider_json_' . sanitize_title( $parameters['slider'] ) );
+
+			if ( false === ( $brasa_slider_transient ) ) {
+				// if is name get slider from db by name
+				$slider = get_page_by_title( $parameters['slider'], OBJECT, 'brasa_slider_cpt' );
+
+				/* Create transient for this slider */
+				set_transient( 'brasa_slider_json_' . sanitize_title( $parameters['slider'] ), $slider, DAY_IN_SECONDS );
+			} else {
+				$slider = $brasa_slider_transient;
+			}
+
 			if ( is_wp_error( $slider ) || ! is_object( $slider ) ) {
 				return new WP_Error( 'no_slider', 'Invalid slider ID or Name', array( 'status' => 404 ) );
 			}

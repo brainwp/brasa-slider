@@ -356,7 +356,8 @@ class Brasa_Slider {
 			}
 		}
 		/* Delete transients in save_post */
-		delete_transient( 'brasa_slider_cache_' . sanitize_title( get_the_title( $post_id ) ) );
+		delete_transient( 'brasa_slider_cache_'	. sanitize_title( get_the_title( $post_id ) ) );
+		delete_transient( 'brasa_slider_json_'	. sanitize_title( get_the_title( $post_id ) ) );
 	}
 
 	/**
