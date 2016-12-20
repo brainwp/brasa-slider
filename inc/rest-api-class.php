@@ -85,6 +85,7 @@ class Brasa_Slider_API {
 		// get slider items
 		$ids = esc_textarea( get_post_meta( $slider->ID, 'brasa_slider_ids', true ) );
 		$ids = explode( ',', $ids );
+		$ids = array_filter( $ids );
 		if ( ! is_array( $ids ) || empty( $ids ) ) {
 			return new WP_Error( 'blank_slider', 'This slider is blank (0 items)', array( 'status' => 404 ) );
 		}

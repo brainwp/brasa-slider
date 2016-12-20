@@ -269,6 +269,7 @@ class Brasa_Slider {
 		echo '<ul id="brasa_slider_sortable_ul">';
 		$ids = get_post_meta( $post->ID, 'brasa_slider_ids', true );
 		$ids = explode( ',', $ids );
+		$ids = array_filter( $ids );
 		if( !empty($ids) && is_array( $ids ) ){
 			foreach ($ids as $id) {
 				echo '<li class="brasa_slider_item is_item" data-post-id="'.$id.'" id="'.$id.'">';
@@ -346,6 +347,7 @@ class Brasa_Slider {
 		if( isset( $_POST['brasa_slider_input'] ) ) {
 			$ids = esc_textarea( $_POST['brasa_slider_input'] );
 			$all_ids = explode( ',', $ids );
+			$all_ids = array_filter( $all_ids );
 			if( is_array( $all_ids ) && ! empty( $all_ids ) ) {
 				update_post_meta( $post_id, 'brasa_slider_ids', $ids );
 				foreach ( $all_ids as $id ) {
