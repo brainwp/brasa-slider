@@ -18,13 +18,16 @@ After installing the plugin go to your dashboard and create a new slider. You ha
 2. Activate the plugin through the 'Plugins' screen in WordPress
 
 == Changelog ==
+= 1.1f =
+* Add support to slider ID (post ID) on shortcode (example: [brasa-slider id="4"] )
+* Add admin notice with shortcode to copy
 = 1.1e =
-* Add transient for optimization on get slider posts *
-* Fix void slider item *
+* Add transient for optimization on get slider posts
+* Fix void slider item
 = 1.1d =
-* Add rest API parameter to print template in HTML *
+* Add rest API parameter to print template in HTML
 = 1.1c =
-* Fix rest-api 500 error *
+* Fix rest-api 500 error
 = 1.1b =
 * Added constant to remove frontend things (script, css, etc) *
 = 1.1.0 =
