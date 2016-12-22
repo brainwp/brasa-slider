@@ -12,7 +12,7 @@
  * Plugin Name:       Brasa Slider
  * Plugin URI:        http://brasa.art.br
  * Description:       Brasa Slider
- * Version:           1.1e
+ * Version:           1.1f
  * Author:            Matheus Gimenez
  * Plugin URI:        http://brasa.art.br
  * Text Domain:       brasa_slider
@@ -93,7 +93,6 @@ function brasa_slider_locate_template( $template_names, $load = false, $require_
  * @param string $slug
  * @param string $name Optional. Default null
  *
- * @uses  rcp_locate_template()
  * @uses  load_template()
  * @uses  get_template_part()
  */
@@ -133,6 +132,22 @@ class Brasa_Slider {
 		add_action(		'save_post',		array( $this, 'save' ) );
 		add_action(		'plugins_loaded',	array( $this, 'text_domain' ) );
 		add_shortcode(	'brasa_slider',		array( $this, 'shortcode' ) );
+
+		// add notice to show shortcode on edit slider screen
+		add_action( 'admin_notices', array( $this, 'show_shortcode_edit' ) );
+	}
+	/**
+	 * Add notice to show shortcode on edit slider screen
+	 * @return null
+	 */
+	public function show_shortcode_edit() {
+		$page = get_current_screen();
+		if ( $page->id == 'brasa_slider_cpt' && $_GET[ 'action' ] == 'edit' ) {
+			global $post;
+			$shortcode = sprintf( '[brasa_slider id="%s"]', $post->ID );
+			$text = sprintf( __( 'Shortcode: %s', 'brasa_slider' ), $shortcode );
+			printf( '<div class="notice notice-success"><p>%s</p></div>', $text );
+		}
 	}
 	/**
 	 * Load text domain
@@ -381,21 +396,24 @@ class Brasa_Slider {
 			array(
 				'name' => '',
 				'size' => '',
-				'json' => ''
+				'json' => '',
+				'id'   => ''
 				), $atts )
 		);
-
-		/* Get transient */
-		$brasa_slider_transient = get_transient( 'brasa_slider_cache_' . sanitize_title( $atts['name'] ) );
-
-		if ( false === ( $brasa_slider_transient ) ) {
-			$slider = get_page_by_title( $atts['name'], OBJECT, 'brasa_slider_cpt' );
-
-			/* Create transient for this slider */
-			set_transient( 'brasa_slider_cache_' . sanitize_title( $atts['name'] ), $slider, DAY_IN_SECONDS );
+		if ( $atts[ 'id' ] != '' ) {
+			$slider = get_post( $atts[ 'id' ] );
 		} else {
-			$slider = $brasa_slider_transient;
+			/* Get transient */
+			$brasa_slider_transient = get_transient( 'brasa_slider_cache_' . sanitize_title( $atts['name'] ) );
+			if ( false === ( $brasa_slider_transient ) ) {
+				$slider = get_page_by_title( $atts['name'], OBJECT, 'brasa_slider_cpt' );
+				/* Create transient for this slider */
+				set_transient( 'brasa_slider_cache_' . sanitize_title( $atts['name'] ), $slider, DAY_IN_SECONDS );
+				} else {
+					$slider = $brasa_slider_transient;
+				}
 		}
+
 
 		$GLOBALS['slider']	= $slider;
 		$GLOBALS['atts']	= $atts;

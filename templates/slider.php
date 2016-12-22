@@ -1,13 +1,13 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 global $slider, $atts;
-$cfg = (!empty($atts['json'])) ? $atts['json'] : get_post_meta($slider->ID,'brasa-slider-cfg',true);;
+$cfg = (!empty($atts['json'])) ? $atts['json'] : get_post_meta($slider->ID,'brasa-slider-cfg',true);
 $ids = esc_textarea( get_post_meta( $slider->ID, 'brasa_slider_ids', true ) );
 $ids = explode(',', $ids);
 $size = (!empty($atts['size'])) ? $atts['size'] : esc_textarea( get_post_meta( $slider->ID, 'brasa_slider_size', true ) );
 $brasa_slider_id = $slider->ID;
 ?>
-<div class="col-md-12 is_slider" id="slider-'<?php echo esc_attr( $slider->post_name );?>" data-json="<?php echo esc_attr( $cfg ); ?>">
+<div class="col-md-12 is_slider" id="slider-<?php echo esc_attr( $slider->post_name );?>" data-json="<?php echo esc_attr( $cfg ); ?>">
 	<?php foreach ( $ids as $id ) :
 		$brasa_slider_item_id = $id;
 		if(get_post_type($id) == 'attachment'){
