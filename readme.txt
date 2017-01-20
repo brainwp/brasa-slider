@@ -1,5 +1,5 @@
 === Plugin Name ===
-Contributors: MatheusGimenez, brasadesign, everaldomatias
+Contributors: MatheusGimenez, brasadesign, everaldomatias, willowmagrini
 Donate link: http://brasa.art.br
 Tags: slider, brasa, post slider, rest api, support rest api, transient api
 Requires at least: 4.5
@@ -18,6 +18,8 @@ After installing the plugin go to your dashboard and create a new slider. You ha
 2. Activate the plugin through the 'Plugins' screen in WordPress
 
 == Changelog ==
+= 1.16 =
+* fix "Notice: Undefined index: id" when using the shortcode with name parameter.
 = 1.1f =
 * Add support to slider ID (post ID) on shortcode (example: [brasa-slider id="4"] )
 * Add admin notice with shortcode to copy
