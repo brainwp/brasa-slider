@@ -392,15 +392,16 @@ class Brasa_Slider {
 	public function shortcode( $atts ) {
 		$html = '';
 		// Attributes
-		extract( shortcode_atts(
-			array(
-				'name' => '',
-				'size' => '',
-				'json' => '',
-				'id'   => ''
-				), $atts )
-		);
-		if ( isset($atts['id']) && $atts[ 'id' ] != '' ) {
+		$atts = shortcode_atts(
+				array(
+					'name' => '',
+					'size' => '',
+					'json' => '',
+					'id'   => ''
+				), $atts 
+			);
+
+		if ( $atts[ 'id' ] != '' ) {
 			$slider = get_post( $atts[ 'id' ] );
 		} else {
 			/* Get transient */
