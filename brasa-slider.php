@@ -400,7 +400,7 @@ class Brasa_Slider {
 				'id'   => ''
 				), $atts )
 		);
-		if ( $atts[ 'id' ] != '' ) {
+		if ( isset($atts['id']) && $atts[ 'id' ] != '' ) {
 			$slider = get_post( $atts[ 'id' ] );
 		} else {
 			/* Get transient */
