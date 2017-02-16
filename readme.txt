@@ -18,7 +18,7 @@ After installing the plugin go to your dashboard and create a new slider. You ha
 2. Activate the plugin through the 'Plugins' screen in WordPress
 
 == Changelog ==
-= 1.16 =
+= 1.1.6 =
 * fix "Notice: Undefined index: id" when using the shortcode with name parameter.
 = 1.1f =
 * Add support to slider ID (post ID) on shortcode (example: [brasa-slider id="4"] )
