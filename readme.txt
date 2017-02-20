@@ -19,8 +19,9 @@ After installing the plugin go to your dashboard and create a new slider. You ha
 
 == Changelog ==
 = 2.0 =
+Add cursor grab/grabbing in slider sortable items
+Remove whitespace after slider name on edit post screen
 Add support to wordpress.org online translate system (glotpress)
-= 1.1.6 =
 fix "Notice: Undefined index: id" when using the shortcode with name parameter.
 = 1.1f =
 Add support to slider ID (post ID) on shortcode (example: [brasa-slider id="4"] )
