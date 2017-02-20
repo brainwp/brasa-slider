@@ -99,3 +99,9 @@
 body.post-type-brasa_slider_cpt #normal-sortables {
 	display: none;
 }
+body.post-type-brasa_slider_cpt #brasa_slider_sortable_ul li {
+	cursor:grab;
+}
+body.post-type-brasa_slider_cpt #brasa_slider_sortable_ul li.ui-sortable-helper {
+	cursor:grabbing;
+}
