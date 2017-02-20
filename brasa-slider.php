@@ -15,7 +15,7 @@
  * Version:           1.1.6
  * Author:            Matheus Gimenez
  * Plugin URI:        http://brasa.art.br
- * Text Domain:       brasa_slider
+ * Text Domain:       brasa-slider
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * Domain Path:       /languages
@@ -131,7 +131,7 @@ class Brasa_Slider {
 		add_action(		'add_meta_boxes',	array( $this, 'add_boxes' ) );
 		add_action(		'save_post',		array( $this, 'save' ) );
 		add_action(		'plugins_loaded',	array( $this, 'text_domain' ) );
-		add_shortcode(	'brasa_slider',		array( $this, 'shortcode' ) );
+		add_shortcode(	'brasa-slider',		array( $this, 'shortcode' ) );
 
 		// add notice to show shortcode on edit slider screen
 		add_action( 'admin_notices', array( $this, 'show_shortcode_edit' ) );
@@ -145,7 +145,7 @@ class Brasa_Slider {
 		if ( $page->id == 'brasa_slider_cpt' && $_GET[ 'action' ] == 'edit' ) {
 			global $post;
 			$shortcode = sprintf( '[brasa_slider id="%s"]', $post->ID );
-			$text = sprintf( __( 'Shortcode: %s', 'brasa_slider' ), $shortcode );
+			$text = sprintf( __( 'Shortcode: %s', 'brasa-slider' ), $shortcode );
 			printf( '<div class="notice notice-success"><p>%s</p></div>', $text );
 		}
 	}
@@ -154,7 +154,7 @@ class Brasa_Slider {
 	 * @return null
 	 */
 	public function text_domain() {
-		load_plugin_textdomain( 'brasa_slider', false, BRASA_SLIDER_DIR . 'languages' );
+		load_plugin_textdomain( 'brasa-slider', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
 	}
 	/**
 	 * Init things
@@ -181,23 +181,23 @@ class Brasa_Slider {
 	 */
 	private function register_cpt(){
 		$labels = array(
-			'name'                => _x( 'Brasa Sliders', 'Post Type General Name', 'brasa_slider' ),
-			'singular_name'       => _x( 'Brasa Slider', 'Post Type Singular Name', 'brasa_slider' ),
-			'menu_name'           => __( 'Brasa Slider', 'brasa_slider' ),
-			'parent_item_colon'   => __( 'Slider parent', 'brasa_slider' ),
-			'all_items'           => __( 'All sliders', 'brasa_slider' ),
-			'view_item'           => __( 'View slider', 'brasa_slider' ),
-			'add_new_item'        => __( 'Add New Slider', 'brasa_slider' ),
-			'add_new'             => __( 'Add New', 'brasa_slider' ),
-			'edit_item'           => __( 'Edit Slider', 'brasa_slider' ),
-			'update_item'         => __( 'Update Slider', 'brasa_slider' ),
-			'search_items'        => __( 'Search Slider', 'brasa_slider' ),
-			'not_found'           => __( 'Not found', 'brasa_slider' ),
-			'not_found_in_trash'  => __( 'Not found in Trash', 'brasa_slider' ),
+			'name'                => _x( 'Brasa Sliders', 'Post Type General Name', 'brasa-slider' ),
+			'singular_name'       => _x( 'Brasa Slider', 'Post Type Singular Name', 'brasa-slider' ),
+			'menu_name'           => __( 'Brasa Slider', 'brasa-slider' ),
+			'parent_item_colon'   => __( 'Slider parent', 'brasa-slider' ),
+			'all_items'           => __( 'All sliders', 'brasa-slider' ),
+			'view_item'           => __( 'View slider', 'brasa-slider' ),
+			'add_new_item'        => __( 'Add New Slider', 'brasa-slider' ),
+			'add_new'             => __( 'Add New', 'brasa-slider' ),
+			'edit_item'           => __( 'Edit Slider', 'brasa-slider' ),
+			'update_item'         => __( 'Update Slider', 'brasa-slider' ),
+			'search_items'        => __( 'Search Slider', 'brasa-slider' ),
+			'not_found'           => __( 'Not found', 'brasa-slider' ),
+			'not_found_in_trash'  => __( 'Not found in Trash', 'brasa-slider' ),
 			);
 		$args = array(
-			'label'               => __( 'brasa_slider_cpt', 'brasa_slider' ),
-			'description'         => __( 'Brasa Slider', 'brasa_slider' ),
+			'label'               => __( 'brasa_slider_cpt', 'brasa-slider' ),
+			'description'         => __( 'Brasa Slider', 'brasa-slider' ),
 			'labels'              => $labels,
 			'supports'            => array( 'title', ),
 			'hierarchical'        => false,
@@ -248,7 +248,7 @@ class Brasa_Slider {
 	public function add_boxes() {
 		add_meta_box(
 			'brasa_slider_search'
-			,__( 'Search Posts by Name', 'brasa_slider' )
+			,__( 'Search Posts by Name', 'brasa-slider' )
 			,array( $this, 'render_search_meta' )
 			,'brasa_slider_cpt'
 			,'advanced'
@@ -256,7 +256,7 @@ class Brasa_Slider {
 			);
 		add_meta_box(
 			'brasa_slider_sortable'
-			,__( 'Order Slider', 'brasa_slider' )
+			,__( 'Order Slider', 'brasa-slider' )
 			,array( $this, 'render_sortable_meta' )
 			,'brasa_slider_cpt'
 			,'advanced'
@@ -269,9 +269,9 @@ class Brasa_Slider {
 	 * @return write
 	 */
 	public function render_search_meta($post){
-		_e('<input type="text" id="search_brasa_slider" placeholder="Search.. ">','brasa_slider');
-		_e('<a id="search-bt-slider" class="button button-primary button-large">Search!</a>','brasa_slider');
-		_e('<a class="button button-primary button-large select-image-brasa">Or select image</a>','brasa_slider');
+		_e('<input type="text" id="search_brasa_slider" placeholder="Search.. ">','brasa-slider');
+		_e('<a id="search-bt-slider" class="button button-primary button-large">Search!</a>','brasa-slider');
+		_e('<a class="button button-primary button-large select-image-brasa">Or select image</a>','brasa-slider');
 		echo '<div id="brasa_slider_result" data-url="'.home_url().'"></div>';
 	}
 	/**
@@ -285,7 +285,7 @@ class Brasa_Slider {
 		echo '<input type="text" name="brasa_slider_input" id="brasa_slider_hide" style="display:none">';
 		echo '<ul id="brasa_slider_sortable_ul">';
 		if ( is_string( $pagenow ) && $pagenow == 'post-new.php' ) {
-			_e( '<span class="notice_not_item">No items added to the Slider. Use the \'Search Posts by Name\' to search for items and add to Slider.</span>','brasa_slider');
+			_e( '<span class="notice_not_item">No items added to the Slider. Use the \'Search Posts by Name\' to search for items and add to Slider.</span>','brasa-slider');
 			echo '</ul>';
 			return;
 		}
@@ -310,12 +310,12 @@ class Brasa_Slider {
 			    echo '</div><!-- thumb_item -->';
 	   		    echo '<div class="container_brasa_link" style="width:70%;margin-left:30%;">';
 	      		echo '<label class="link">Link (URL):</label><br>';
-	      		echo '<input class="link_brasa_slider" type="text" name="brasa_slider_link_'.$id.'" placeholder="'.__('Link','brasa_slider').'" value="'.esc_url(get_post_meta($post->ID, 'brasa_slider_id'.$id, true )).'">';
+	      		echo '<input class="link_brasa_slider" type="text" name="brasa_slider_link_'.$id.'" placeholder="'.__('Link','brasa-slider').'" value="'.esc_url(get_post_meta($post->ID, 'brasa_slider_id'.$id, true )).'">';
 	 			echo '</div><!-- container_brasa_link -->';
 	   			echo '</li><!-- brasa_slider_item -->';
 			}
 		} else {
-			_e( '<span class="notice_not_item">No items added to the Slider. Use the \'Search Posts by Name\' to search for items and add to Slider.</span>','brasa_slider');
+			_e( '<span class="notice_not_item">No items added to the Slider. Use the \'Search Posts by Name\' to search for items and add to Slider.</span>','brasa-slider');
 		}
 		echo '</ul>';
 	}
@@ -349,7 +349,7 @@ class Brasa_Slider {
 	      			echo '</div><!-- .title_item -->';
 	      			echo '<div class="container_brasa_link">';
 	      			echo '<label>Link:</label><br>';
-	      			echo '<input class="link_brasa_slider" type="text" name="brasa_slider_link_' . get_the_ID() . '" placeholder="' . __( 'Link (Destination URL)', 'brasa_slider' ) . '" value="' . get_permalink( get_the_ID() ) . '">';
+	      			echo '<input class="link_brasa_slider" type="text" name="brasa_slider_link_' . get_the_ID() . '" placeholder="' . __( 'Link (Destination URL)', 'brasa-slider' ) . '" value="' . get_permalink( get_the_ID() ) . '">';
 	      			echo '</div>';
 	      			_e('<a class="rm-item" data-post-id="' . get_the_ID() . '">Remove this</a>', 'brasa-slider' );
 	      			echo '</div>';
