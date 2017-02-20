@@ -81,10 +81,6 @@ class Brasa_Slider_Metabox
             // jQuery UI.
             wp_enqueue_script('jquery-ui-sortable');
 
-            // Metabox.
-            wp_enqueue_style('odin-admin', BRASA_SLIDER_URL . 'assets/css/admin.css', array(), null, 'all');
-            wp_enqueue_script('odin-admin', BRASA_SLIDER_URL . 'assets/js/admin.js', array('jquery'), null, true);
-
             // Localize strings.
             wp_localize_script(
                 'odin-admin',
