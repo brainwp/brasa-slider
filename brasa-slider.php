@@ -131,7 +131,7 @@ class Brasa_Slider {
 		add_action(		'add_meta_boxes',	array( $this, 'add_boxes' ) );
 		add_action(		'save_post',		array( $this, 'save' ) );
 		add_action(		'plugins_loaded',	array( $this, 'text_domain' ) );
-		add_shortcode(	'brasa-slider',		array( $this, 'shortcode' ) );
+		add_shortcode(	'brasa_slider',		array( $this, 'shortcode' ) );
 
 		// add notice to show shortcode on edit slider screen
 		add_action( 'admin_notices', array( $this, 'show_shortcode_edit' ) );
