@@ -18,6 +18,8 @@ After installing the plugin go to your dashboard and create a new slider. You ha
 2. Activate the plugin through the 'Plugins' screen in WordPress
 
 == Changelog ==
+= 2.0.1 =
+Fix shortcode name
 = 2.0 =
 Add cursor grab/grabbing in slider sortable items
 Remove whitespace after slider name on edit post screen
