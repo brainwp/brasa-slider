@@ -3,7 +3,7 @@ Contributors: MatheusGimenez, brasadesign, everaldomatias, willowmagrini
 Donate link: http://brasa.art.br
 Tags: slider, brasa, post slider, rest api, support rest api, transient api
 Requires at least: 4.5
-Tested up to: 4.7
+Tested up to: 4.7.3
 Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -18,6 +18,8 @@ After installing the plugin go to your dashboard and create a new slider. You ha
 2. Activate the plugin through the 'Plugins' screen in WordPress
 
 == Changelog ==
+= 2.0.2 =
+Fix media selector title
 = 2.0.1 =
 Fix shortcode name
 = 2.0 =

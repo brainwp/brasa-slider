@@ -55,10 +55,7 @@ jQuery(function($){
 
 			// Create the media frame.
 			uploadFrame = wp.media.frames.downloadable_file = wp.media({
-				title: odinAdminParams.uploadTitle,
-				button: {
-					text: odinAdminParams.uploadButton
-				},
+				title: brasa_slider_admin_params.media_element_title,
 				multiple: false,
 				library: {
 					type: 'image'
