@@ -316,7 +316,7 @@ class Brasa_Slider {
 			    echo '</div><!-- thumb_item -->';
 	   		    echo '<div class="container_brasa_link" style="width:70%;margin-left:30%;">';
 	      		echo '<label class="link">Link (URL):</label><br>';
-	      		echo '<input class="link_brasa_slider" type="text" name="brasa_slider_link_'.$id.'" placeholder="'.__('Link','brasa-slider').'" value="'.esc_url(get_post_meta($post->ID, 'brasa_slider_id'.$id, true )).'">';
+	      		echo '<input class="link_brasa_slider" type="text" name="brasa_slider_link_'.$id.'" placeholder="'.__('Link','brasa-slider').'" value="'.esc_url(get_post_meta($post->ID, 'brasa_slider_id'.$id, true )).'"><br><br>';
 				echo '<input type="checkbox" name="brasa_slider_link_window_'.$id.'"  value="true" '.checked($slide_window_meta,'true',false).'>';
 				echo '<label class="link-window"> Abrir em nova janela</label><br>';
 	 			echo '</div><!-- container_brasa_link -->';
@@ -357,7 +357,7 @@ class Brasa_Slider {
 	      			echo '</div><!-- .title_item -->';
 	      			echo '<div class="container_brasa_link">';
 	      			echo '<label>Link:</label><br>';
-	      			echo '<input class="link_brasa_slider" type="text" name="brasa_slider_link_' . get_the_ID() . '" placeholder="' . __( 'Link (Destination URL)', 'brasa-slider' ) . '" value="' . get_permalink( get_the_ID() ) . '">';
+	      			echo '<input class="link_brasa_slider" type="text" name="brasa_slider_link_' . get_the_ID() . '" placeholder="' . __( 'Link (Destination URL)', 'brasa-slider' ) . '" value="' . get_permalink( get_the_ID() ) . '"><br><br>';
 					echo '<input type="checkbox" name="brasa_slider_link_window_'.get_the_ID().'"  value="true">';
 					echo '<label class="link-window"> Abrir em nova janela</label><br>';
 	      			echo '</div>';

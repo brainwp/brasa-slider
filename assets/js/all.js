@@ -71,7 +71,7 @@ jQuery(function($){
 	      			+'</div>'
 	      			+'<div class="container_brasa_link">'
 	      			+'<label>Link:</label><br>'
-	      			+'<input class="link_brasa_slider" type="text" name="brasa_slider_link_'+attachment.id+'" placeholder="Link (Destination URL)" value="">'
+	      			+'<input class="link_brasa_slider" type="text" name="brasa_slider_link_'+attachment.id+'" placeholder="Link (Destination URL)" value=""><br><br>'
 					+'<input type="checkbox" name="brasa_slider_link_window_'+attachment.id+'"  value="true">'
 					+'<label class="link-window"> Abrir em nova janela</label><br>'
 	      			+'</div>'
