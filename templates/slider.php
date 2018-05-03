@@ -18,7 +18,7 @@ $brasa_slider_id = $slider->ID;
 		$size = apply_filters('brasa_slider_img_size', $size);
 		$img = wp_get_attachment_image_src( $img, $size, false );?>
 		<div class="slick_slide">
-		    <a href="<?php echo esc_url( get_post_meta($slider->ID, 'brasa_slider_id' . $id, true ) );?>">
+			<a <?php echo get_post_meta($slider->ID, 'brasa_slider_link_window_' . $id, true ) ?  "target='_blank'" : ''; ?> href="<?php echo esc_url( get_post_meta($slider->ID, 'brasa_slider_id' . $id, true ) );?>">
 		    	<img src="<?php echo esc_url( $img[0] );?>" class="img_slider">
 		    </a>
 		</div>
